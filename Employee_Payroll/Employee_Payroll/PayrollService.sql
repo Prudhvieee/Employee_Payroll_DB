@@ -26,3 +26,26 @@ UC-4
 Displaying data in table
 */
 select * from employee_payroll;
+/*
+UC-5 
+Displaying particular data
+*/
+select salary from employee_payroll where name = 'Bill';
+select * from employee_payroll where start_date between CAST('2018-01-01' as date) AND SYSDATETIME();
+/*
+UC-6 
+Adding column to table and updating data.
+*/
+Alter table employee_payroll add Gender char;
+
+Update employee_payroll set Gender = 'M' where name = 'Bill' or name = 'Charlie';
+Update employee_payroll set Gender = 'F' where name = 'Terissa';
+/*
+UC-7 
+Using math functions to find SUM AVERAGE MINIMUM MAXIMUM
+*/
+select Gender,SUM(salary) as sum from employee_payroll group by Gender;
+select Gender,AVG(salary) as avg from employee_payroll group by Gender;
+select Gender,MIN(salary) as min from employee_payroll group by Gender;
+select Gender,MAX(salary) as max from employee_payroll group by Gender;
+select Gender,COUNT(gender) as count from employee_payroll group by Gender;
