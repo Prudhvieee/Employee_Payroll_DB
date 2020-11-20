@@ -18,8 +18,11 @@ UC-3
  Inserting Data to table
 */
 insert into employee_payroll values
-('Bill',100000.00,'2018-01-03'),
-('Terissa',200000.00,'2019-11-13'),
-('Charlie',300000.00,'2020-05-21');
-
+('Bill',100000.00,'2020-01-03'),
+('Terissa',200000.00,'2019-01-13'),
+('Charlie',300000.00,'2018-04-21');
+/*
+UC-4
+Displaying data in table
+*/
 select * from employee_payroll;
