@@ -57,3 +57,8 @@ Alter table Employee_Payroll Add Employee_Address varchar(200), Department Varch
 Update employee_payroll set Employee_Address = 'Brihimgham', Department = 'HR',Phone_Number = '9876543210' where name = 'Bill';
 Update employee_payroll set Employee_Address = 'California', Department = 'Technical',Phone_Number = '9871234560' where name = 'Terissa';
 Update employee_payroll set Employee_Address = 'Vegas', Department = 'Testing',Phone_Number = '9182736450'  where name = 'Charlie';
+/*
+UC-9 
+ Adding more columns
+*/
+alter table Employee_Payroll Add Basic_Pay money null default 0,  Deductions money null default 0, Taxable_Pay money null default 0, Income_Tax money null default 0, Net_Pay money null default 0
