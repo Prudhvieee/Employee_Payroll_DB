@@ -67,3 +67,65 @@ alter table Employee_Payroll Add Basic_Pay money null default 0,  Deductions mon
   Making Terissa as a part of sales department
  */
  insert into Employee_Payroll(name,salary,start_date,Gender,Employee_Address,Department,Phone_Number) values ('Terissa','200000.00','2019-01-13','F','Newyork','Sales & Marketing','9871234560');
+ /*
+  UC-11
+  Implementing ER Diagram
+*/
+create table Employee
+(
+Employee_Id int identity(1,1) not null,
+Name varchar(25) not null,
+Start_Date date not null,
+Gender varchar(10) not null,
+Address varchar(100) not null,
+Dept_no int not null,
+Phone_Number varchar(10) not null,
+PRIMARY KEY (Employee_Id)
+);
+
+insert into Employee values
+('Bill','2020-01-03','M', 'Paris', 1,'9876543210'),
+('Terissa','2019-01-13','F', 'France', 2,'8765432109'),
+('Charlie','2018-04-21','M', 'London', 3,'7654321098');
+
+Select * from Employee
+/*
+ Performing uc-7 with employee table
+*/
+select Gender,COUNT(gender) as count from Employee group by Gender;
+
+create table Department
+(
+Dept_no int identity(1,1) not null,
+Dept_name varchar(30) not null,
+Dept_location varchar(50) not null,
+PRIMARY KEY (Dept_no)
+);
+select * from Department;
+insert into Department values
+('Marketing','Paris'),
+('Sales','France'),
+('HR','London');
+
+create table Salary(
+Salary_id int identity(1,1) not null,
+Employee_Id int not null,
+Basic_pay money not null,
+Deductions money not null,
+Taxable_pay money not null,
+Income_tax money not null,
+Net_pay money not null,
+PRIMARY KEY (Salary_id),
+FOREIGN KEY (Employee_Id) REFERENCES Employee(Employee_Id)
+);
+
+select * from Salary
+insert into Salary values
+(1,50000.00, 512.00, 530.00, 780.00,43500.00),
+(2,41000.00, 503.00, 506.00, 580.00,1500.00),
+(3,9000.00, 501.00, 508.00, 560.00,1400.00);
+
+
+alter table Employee
+Add FOREIGN KEY (Dept_no) REFERENCES Department(Dept_no);
+
