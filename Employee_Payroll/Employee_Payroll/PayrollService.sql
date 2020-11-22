@@ -61,4 +61,9 @@ Update employee_payroll set Employee_Address = 'Vegas', Department = 'Testing',P
 UC-9 
  Adding more columns
 */
-alter table Employee_Payroll Add Basic_Pay money null default 0,  Deductions money null default 0, Taxable_Pay money null default 0, Income_Tax money null default 0, Net_Pay money null default 0
+alter table Employee_Payroll Add Basic_Pay money null default 0,  Deductions money null default 0, Taxable_Pay money null default 0, Income_Tax money null default 0, Net_Pay money null default 0;
+/*
+ UC-10
+  Making Terissa as a part of sales department
+ */
+ insert into Employee_Payroll(name,salary,start_date,Gender,Employee_Address,Department,Phone_Number) values ('Terissa','200000.00','2019-01-13','F','Newyork','Sales & Marketing','9871234560');
