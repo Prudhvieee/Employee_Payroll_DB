@@ -73,15 +73,16 @@ alter table Employee_Payroll Add Basic_Pay money null default 0,  Deductions mon
 */
 create table Employee
 (
-Employee_Id int identity(1,1) not null,
+Employee_Id int PRIMARY KEY identity(1,1) not null,
 Name varchar(25) not null,
 Start_Date date not null,
 Gender varchar(10) not null,
 Address varchar(100) not null,
 Dept_no int not null,
-Phone_Number varchar(10) not null,
-PRIMARY KEY (Employee_Id)
+Phone_Number varchar(10) not null
 );
+alter table Employee
+Add FOREIGN KEY (Dept_no) REFERENCES Department(Dept_no);
 
 insert into Employee values
 ('Bill','2020-01-03','M', 'Paris', 1,'9876543210'),
@@ -96,11 +97,13 @@ select Gender,COUNT(gender) as count from Employee group by Gender;
 
 create table Department
 (
-Dept_no int identity(1,1) not null,
+Dept_no int primary key identity(1,1) not null,
 Dept_name varchar(30) not null,
 Dept_location varchar(50) not null,
-PRIMARY KEY (Dept_no)
 );
+alter table Department add
+FOREIGN KEY (Employee_Id) REFERENCES Employee (Employee_Id);
+
 select * from Department;
 insert into Department values
 ('Marketing','Paris'),
@@ -108,14 +111,13 @@ insert into Department values
 ('HR','London');
 
 create table Salary(
-Salary_id int identity(1,1) not null,
+Salary_id int PRIMARY KEY identity(1,1) not null,
 Employee_Id int not null,
 Basic_pay money not null,
 Deductions money not null,
 Taxable_pay money not null,
 Income_tax money not null,
 Net_pay money not null,
-PRIMARY KEY (Salary_id),
 FOREIGN KEY (Employee_Id) REFERENCES Employee(Employee_Id)
 );
 
@@ -125,7 +127,36 @@ insert into Salary values
 (2,41000.00, 503.00, 506.00, 580.00,1500.00),
 (3,9000.00, 501.00, 508.00, 560.00,1400.00);
 
+/*
+ UC-12
+ retriving data from the created tables
+*/
 
-alter table Employee
-Add FOREIGN KEY (Dept_no) REFERENCES Department(Dept_no);
+/* Retrieve all records for employee*/
+select emp.Employee_Id, emp.Name, emp.Start_Date, emp.Gender, emp.Address, emp.Phone_Number,
+dept.Dept_no, dept.Dept_name,dept.Dept_location,
+sal.Salary_id, sal.Basic_pay, sal.Deductions, sal.Taxable_pay, sal.Income_tax, sal.Net_pay
+from Employee emp, Department dept, Salary sal
+where emp.Employee_Id = dept.Employee_Id and sal.Employee_Id = emp.Employee_Id;
+/* Retriving all the records for a particular employee*/
+select emp.Employee_Id, emp.Name, emp.Start_Date, emp.Gender, emp.Address, emp.Phone_Number,
+sal.Salary_id, sal.Basic_pay, sal.Deductions, sal.Taxable_pay, sal.Income_tax, sal.Net_pay
+from Employee emp, Salary sal
+where emp.Employee_Id = sal.Employee_Id and emp.Name = 'Bill';
+/*Getting data in a particular time frame*/
+select * from Employee emp, Department dept, Salary sal
+where emp.Employee_Id = dept.Employee_Id and sal.Employee_Id = emp.Employee_Id and
+emp.Start_Date between CAST('2018-04-21' as date) and SYSDATETIME();
 
+/*Performing math operations*/
+SELECT Sum(Net_pay) FROM Salary INNER JOIN Employee 
+ON Salary.Employee_Id=Employee.Employee_Id WHERE Gender='M' GROUP BY Gender;
+
+SELECT Avg(Net_pay) FROM Salary INNER JOIN Employee 
+ON Salary.Employee_Id=Employee.Employee_Id WHERE Gender='M' GROUP BY Gender;
+
+SELECT Min(Net_pay) FROM Salary INNER JOIN Employee 
+ON Salary.Employee_Id=Employee.Employee_Id WHERE Gender='M' GROUP BY Gender;
+
+SELECT Max(Net_pay) FROM Salary INNER JOIN Employee 
+ON Salary.Employee_Id=Employee.Employee_Id WHERE Gender='M' GROUP BY Gender;
